@@ -1,0 +1,9 @@
+langchain-community 
+torch 
+beautifulsoup4 
+requests 
+sentence-transformers 
+faiss-cpu 
+ipywidgets 
+sentencepiece  
+streamlit
