@@ -10,8 +10,6 @@ import psycopg2
 import psycopg2.extras
 from typing import List, TypedDict
 
-from langchain_groq import ChatGroq
-from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from sentence_transformers import SentenceTransformer
@@ -32,37 +30,12 @@ class RAGAnswer(TypedDict):
 # ------------------------------------------------------------------
 # Config
 # ------------------------------------------------------------------
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 POSTGRES_DSN = os.getenv("POSTGRES_DSN", "postgresql://clt_user:clt_pass@localhost:5432/clt_db")
 EMBED_MODEL = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 EMBED_DIM = 384
 
 TOP_K_VECTOR = 10          # first semantic retrieval
 TOP_K_RERANK = 4           # sent to LLM after re-rank
-
-LLM = ChatGroq(model="llama-3.3-70b-versatile",groq_api_key=GROQ_API_KEY,temperature=0)
-
-PROMPT = ChatPromptTemplate.from_template("""
-Você é um advogado trabalhista especializado na CLT.
-
-Responda **somente** com base nos trechos abaixo.  
-Se a resposta não estiver presente no contexto, diga claramente:
-"Não encontrei essa informação na CLT fornecida."
-
-Instruções:
-- Cite os artigos exatamente entre aspas.
-- Não invente leis, artigos ou jurisprudências.
-- Não traga conhecimento externo.
-
-Contexto:
-{context}
-
-Pergunta:
-{question}
-
-Resposta:
-""")
-
 
 # ------------------------------------------------------------------
 # Vector search
@@ -117,8 +90,7 @@ def answer_about_clt(question: str) -> RAGAnswer:
     top = _rerank(hits)
     # 3. Generate
     context = _format_context(top)
-    chain = PROMPT | LLM | StrOutputParser()
-    answer = chain.invoke({"context": context, "question": question})
+    answer = context
     # 4. Build citations
     citations: List[Citation] = [
         Citation(

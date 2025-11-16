@@ -5,17 +5,15 @@ langchain>=1.0.2,<2.0.0
 sentence-transformers>=2.6.1,<3.0.0
 langgraph>=1.0.0,<2.0.0
 deepagents>=0.2.0,<0.3.0
-
-# Groq como LLM principal
-langchain-groq>=0.2.0          # integração LangChain + Groq
-groq>=0.32.0,<1.0.0            # SDK oficial do Groq
+langchain-groq>=0.2.0          # integration LangChain + Groq
+groq>=0.32.0,<1.0.0            # Official Groq SDK
 
 
 ############################
-# Observabilidade / Tracing
+# Observability / Tracing
 ############################
 langfuse>=3.9.0,<4.0.0         # SDK v3 (OpenTelemetry) :contentReference[oaicite:2]{index=2}
-langsmith>=0.3.45,<1.0.0       # opcional mas bem alinhado com LangGraph/DeepAgents
+langsmith>=0.3.45,<1.0.0       # optional but well aligned with LangGraph/DeepAgents
 
 ############################
 # Config / Tipagem
@@ -32,7 +30,7 @@ beautifulsoup4>=4.12.2,<5.0.0
 boto3
 
 ############################
-# Banco de Dados
+# Database
 ############################
 psycopg2-binary>=2.9.0,<3.0.0  # driver PostgreSQL; troque se usar outro DB
 
@@ -41,4 +39,4 @@ psycopg2-binary>=2.9.0,<3.0.0  # driver PostgreSQL; troque se usar outro DB
 ############################
 azure-identity>=1.17.0,<2.0.0
 azure-core>=1.30.0,<2.0.0
-azure-ai-inference>=1.0.0b5    # novo stack de inferência da Azure :contentReference[oaicite:3]{index=3}
+azure-ai-inference>=1.0.0b5    # new Azure inference stack :contentReference[oaicite:3]{index=3}
