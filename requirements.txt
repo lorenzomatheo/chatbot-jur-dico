@@ -1,9 +1,44 @@
-langchain-community 
-torch 
-beautifulsoup4 
-requests 
-sentence-transformers 
-faiss-cpu 
-ipywidgets 
-sentencepiece  
-streamlit
+############################
+# Core LLM / Agents
+############################
+langchain>=1.0.2,<2.0.0
+sentence-transformers>=2.6.1,<3.0.0
+langgraph>=1.0.0,<2.0.0
+deepagents>=0.2.0,<0.3.0
+
+# Groq como LLM principal
+langchain-groq>=0.2.0          # integração LangChain + Groq
+groq>=0.32.0,<1.0.0            # SDK oficial do Groq
+
+
+############################
+# Observabilidade / Tracing
+############################
+langfuse>=3.9.0,<4.0.0         # SDK v3 (OpenTelemetry) :contentReference[oaicite:2]{index=2}
+langsmith>=0.3.45,<1.0.0       # opcional mas bem alinhado com LangGraph/DeepAgents
+
+############################
+# Config / Tipagem
+############################
+pydantic>=2.7.4,<3.0.0
+pydantic-settings>=2.9.1,<3.0.0
+typing-extensions>=4.5.0
+
+############################
+# Web / UI / Extras
+############################
+streamlit>=1.25.0,<2.0.0
+beautifulsoup4>=4.12.2,<5.0.0
+boto3
+
+############################
+# Banco de Dados
+############################
+psycopg2-binary>=2.9.0,<3.0.0  # driver PostgreSQL; troque se usar outro DB
+
+############################
+# Azure SDK (infra / LLM opcional)
+############################
+azure-identity>=1.17.0,<2.0.0
+azure-core>=1.30.0,<2.0.0
+azure-ai-inference>=1.0.0b5    # novo stack de inferência da Azure :contentReference[oaicite:3]{index=3}
