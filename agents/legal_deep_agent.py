@@ -1,6 +1,13 @@
 from __future__ import annotations
 import os
+import sys
 from typing import List
+
+# Add project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from langchain_groq import ChatGroq
 from deepagents import create_deep_agent
@@ -40,7 +47,6 @@ def build_legal_deep_agent(model_name: str = "llama-3.3-70b-versatile", temperat
         # middleware=[...],    # future
     )
 
-
 # ------------------------------------------------------------------
 # 4. CLI smoke test
 # ------------------------------------------------------------------
@@ -52,5 +58,7 @@ if __name__ == "__main__":
         ]
     })
     last_msg = result["messages"][-1]
-    content = getattr(last_msg, "content", last_msg.get("content"))
-    print(content)
+    if hasattr(last_msg, "content"):
+        print(last_msg.content)
+    else:
+        print(last_msg.get("content"))
