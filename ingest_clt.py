@@ -4,7 +4,7 @@ from typing import List
 
 import psycopg2, psycopg2.extras
 from bs4 import BeautifulSoup
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
 
 
@@ -127,15 +127,16 @@ def build_text_index(chunks: List[dict], db_path: str = "clt_text.db"):
 # --------------------------------------------------
 def upsert_pgvector(chunks: List[dict]):
     texts = [c["text"] for c in chunks]
-
     vectors = EMBED_MODEL.encode(
         texts,
         batch_size=32,
         show_progress_bar=True,
-        normalize_embeddings=True,  # opcional, but good for cosine similarity
+        normalize_embeddings=True,
     )
 
+    # single connection, UTF-8 to handle all characters
     with psycopg2.connect(DSN) as conn:
+        conn.set_client_encoding("UTF8")
         with conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS clt_chunks (
@@ -146,7 +147,6 @@ def upsert_pgvector(chunks: List[dict]):
                     embedding vector(384)
                 );
             """)
-
             psycopg2.extras.execute_batch(
                 cur,
                 """
